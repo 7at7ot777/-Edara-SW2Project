@@ -7,6 +7,10 @@ import { Warehouse } from '../entities/Warehouse';
 import { Product } from '../entities/Product';
 import { Request } from '../entities/Request';
 import { ShippingCompany } from '../entities/ShippingCompany';
+import { UserController } from './Modules/user/user.controller';
+import { UserService } from './Modules/user/user.service';
+import { UserModule } from "./Modules/user/user.module";
+import { AdminModule } from "./Modules/user/admin/admin.module";
 
 @Module({
   imports: [
@@ -22,6 +26,8 @@ import { ShippingCompany } from '../entities/ShippingCompany';
       //migrationsRun: true,
       //  dropSchema: true,
     }),
+    UserModule,
+    AdminModule,
   ],
   controllers: [AppController],
   providers: [AppService],
