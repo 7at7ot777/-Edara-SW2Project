@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Res } from '@nestjs/common';
 import { UserService } from '../user.service';
 import { CreateUserDto } from './AdminDTOs/create-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -7,24 +7,18 @@ import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { UpdateUserDto } from './AdminDTOs/update-user.dto';
 import { Warehouse } from '../../../../entities/Warehouse';
-import { Model } from '../../../../entities/Model';
-import { Product } from '../../../../entities/Product';
-
+import { Response } from 'express';
 
 @Injectable()
 export class AdminService extends UserService {
   salt = 10;
-  public modelRepository= new Repository<Model>({},);
 
   constructor(
     @InjectRepository(User) private readonly usersRepository: Repository<User>,
     @InjectRepository(Warehouse)
     private readonly warehouseRepository: Repository<Warehouse>,
-    @InjectRepository(Model)
-    public modelRepository: Repository<T extends Model<T>>,
   ) {
     super(usersRepository);
-
   }
   async addUser(token: string, createUserDto: CreateUserDto, warehouseId) {
     const newUser = this.usersRepository.create(createUserDto);
@@ -54,14 +48,16 @@ export class AdminService extends UserService {
     if (data.password != '' && data.password != null) {
       user.password = await bcrypt.hash(data.password, this.salt);
     }
-    /* if (data.warehouseId != null) {
-      const warehouse = await this.warehouseRepository.findOneBy({
-        id: data.warehouseId,
-      });
-      if (warehouse) {
+    if (data.warehouseId != null) {
+      const warehouse = await this.findWarehouse(data.warehouseId);
+      if (warehouse instanceof Warehouse) {
         user.warehouse = warehouse;
       }
-    }*/
+      if (typeof warehouse === null) {
+        //error message
+        return { message: 'warehouse not found', code: 404 };
+      }
+    }
     await this.usersRepository.save(user);
   }
   async getUser(id: number) {
@@ -86,15 +82,17 @@ export class AdminService extends UserService {
   async deleteUser(id) {
     const user = await this.usersRepository.findOneBy({ id });
     if (user) {
-      await this.usersRepository.delete(user);
+      await this.usersRepository.remove(user);
+     //await this.usersRepository.save(user);
+
       return { message: 'user is deleted succesfully', code: 200 };
     }
     return { message: 'User not found', code: 404 };
   }
-  async test() {
-    this.modelRepository.find();
-  }
-  setModel(model: Repository<Model>) {
-    this.modelRepository = model;
+  async findWarehouse(wharehouseId: number) {
+    const warehouse = await this.warehouseRepository.findOneBy({
+      id: wharehouseId,
+    });
+    return warehouse;
   }
 }

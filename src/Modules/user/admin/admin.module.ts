@@ -10,10 +10,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '../../../../entities/User';
 import { Warehouse } from '../../../../entities/Warehouse';
 import { IsAdminMiddleware } from './middlewares/is-admin.middleware';
-import { Model } from "../../../../entities/Model";
+
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, Warehouse,Model])],
+  imports: [TypeOrmModule.forFeature([User, Warehouse])],
   controllers: [AdminController],
   providers: [AdminService],
 })

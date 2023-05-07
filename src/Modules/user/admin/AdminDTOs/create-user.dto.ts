@@ -8,6 +8,7 @@ import {
 } from 'class-validator';
 
 export class CreateUserDto {
+  warehouseId?: number;
   @IsString()
   @Length(4, 20, { message: 'name must be more than 3 and less than 21' })
   name: string;
@@ -25,5 +26,5 @@ export class CreateUserDto {
     groups: ['create'],
   })
   password: string;
-  warehouseId?: number;
+
 }

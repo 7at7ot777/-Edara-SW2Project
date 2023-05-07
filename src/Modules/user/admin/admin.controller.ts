@@ -17,7 +17,7 @@ import { User } from '../../../../entities/User';
 import { Warehouse } from '../../../../entities/Warehouse';
 import { Product } from '../../../../entities/Product';
 import { Repository } from 'typeorm';
-import { Model } from '../../../../entities/Model';
+
 
 @Controller('admin')
 export class AdminController {
@@ -56,16 +56,5 @@ export class AdminController {
   @Delete('deleteUser/:id')
   deleteUser(@Param('id', ParseIntPipe) id: number) {
     return this.adminService.deleteUser(id);
-  }
-  @Get('dependencyInjection')
-  async test() {
-    this.adminService.setModel(this.productRepo);
-    const products = await this.adminService.modelRepository.find();
-    this.adminService.setModel(this.userRepo);
-    const warehouses = await this.adminService.modelRepository.find();
-    console.log(
-      `data retrived using dependency injection : products = ${products}, | warehouses = ${warehouses}`,
-    );
-    return `data retrived using dependency injection : products = ${products}, | warehouses = ${warehouses}`;
   }
 }

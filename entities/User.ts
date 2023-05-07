@@ -8,10 +8,10 @@ import {
 import { Request } from './Request';
 import { Warehouse } from './Warehouse';
 import { JoinColumn } from 'typeorm';
-import { Model } from './Model';
+
 
 @Entity({ name: 'users' })
-export class User extends Model {
+export class User{
   @PrimaryGeneratedColumn()
   id: number;
   @Column()
