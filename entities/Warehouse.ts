@@ -1,7 +1,6 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Product } from './Product';
 
-
 @Entity({ name: 'warehouses' })
 export class Warehouse {
   @PrimaryGeneratedColumn()
@@ -10,7 +9,7 @@ export class Warehouse {
   name: string;
   @Column()
   location: string;
-  @Column()
+  @Column({ default: false })
   isActive: boolean;
   @OneToMany(() => Product, (product) => product.warehouse)
   products: Product[];

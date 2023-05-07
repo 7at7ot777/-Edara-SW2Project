@@ -40,6 +40,26 @@ export class AdminModule implements NestModule {
         path: 'admin/deleteUser/:id',
         method: RequestMethod.DELETE,
       },
+      {
+        path: 'warehouse/deleteWarehouse/:id',
+        method: RequestMethod.DELETE,
+      },
+      {
+        path: 'warehouse/updateWarehouse/:id',
+        method: RequestMethod.PUT,
+      },
+      {
+        path: 'warehouse/getWarehouses',
+        method: RequestMethod.GET,
+      },
+      {
+        path: 'warehouse/getWarehouse/:id',
+        method: RequestMethod.GET,
+      },
+      {
+        path: 'warehouse/createWarehouse',
+        method: RequestMethod.POST,
+      },
     );
   }
 }
