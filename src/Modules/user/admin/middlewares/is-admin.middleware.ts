@@ -8,7 +8,6 @@ export class IsAdminMiddleware implements NestMiddleware {
     @InjectRepository(User) private readonly usersRepository: Repository<User>,
   ) {}
   async use(req: Request, res: Response, next: NextFunction) {
-    console.log('inside middleware');
     const token: any = req.headers.token;
     const user = await this.usersRepository.findOneBy({ token: token });
     if (!user) {

@@ -8,9 +8,10 @@ import {
 import { Request } from './Request';
 import { Warehouse } from './Warehouse';
 import { JoinColumn } from 'typeorm';
+import { Model } from './Model';
 
 @Entity({ name: 'users' })
-export class User {
+export class User extends Model {
   @PrimaryGeneratedColumn()
   id: number;
   @Column()
@@ -29,7 +30,7 @@ export class User {
   isAdmin: boolean;
   @OneToMany(() => Request, (request) => request.user)
   requests: Request[];
-  @OneToOne(() => Warehouse)
+  @OneToOne(() => Warehouse, { onDelete: 'SET NULL', onUpdate: 'CASCADE' })
   @JoinColumn()
   warehouse: Warehouse;
 }

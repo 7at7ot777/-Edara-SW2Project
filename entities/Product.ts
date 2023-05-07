@@ -9,9 +9,10 @@ import {
 import { User } from './User';
 import { Warehouse } from './Warehouse';
 import { Request } from './Request';
+import { Model } from './Model';
 
 @Entity({ name: 'products' })
-export class Product {
+export class Product extends Model{
   @PrimaryGeneratedColumn()
   id: number;
   @Column()

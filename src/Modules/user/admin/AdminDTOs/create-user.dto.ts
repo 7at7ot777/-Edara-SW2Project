@@ -1,4 +1,11 @@
-import { IsEmail, IsEmpty, IsNumber, IsString, Length } from 'class-validator';
+import {
+  IsEmail,
+  IsEmpty,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  Length,
+} from 'class-validator';
 
 export class CreateUserDto {
   @IsString()
@@ -18,6 +25,5 @@ export class CreateUserDto {
     groups: ['create'],
   })
   password: string;
-  @IsNumber()
   warehouseId?: number;
 }
