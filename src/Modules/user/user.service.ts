@@ -23,7 +23,7 @@ export class UserService {
       },
       relations: { warehouse: true },
     });
-    console.log(user);
+    //console.log(user);
     if (!user) {
       throw new HttpException('User Not Found', HttpStatus.NOT_FOUND);
     }

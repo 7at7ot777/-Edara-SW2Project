@@ -14,6 +14,7 @@ import { AdminModule } from './Modules/user/admin/admin.module';
 import { WarehouseModule } from './Modules/warehouse/warehouse.module';
 import { ProductModule } from './Modules/product/product.module';
 import { MulterModule } from '@nestjs/platform-express';
+import { RequestModule } from './Modules/request/request.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { MulterModule } from '@nestjs/platform-express';
     AdminModule,
     WarehouseModule,
     ProductModule,
+    RequestModule,
   ],
   controllers: [AppController],
   providers: [AppService],

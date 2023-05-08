@@ -10,9 +10,5 @@ export class CreateRequestDto {
   @IsInt()
   quantity: number;
   @IsBoolean()
-  isActive: boolean;
-  @IsBoolean()
   isIncrease: boolean;
-  @IsBoolean()
-  isAccepted: boolean;
 }
