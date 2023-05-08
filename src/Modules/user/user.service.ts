@@ -52,7 +52,7 @@ export class UserService {
     if (user instanceof User) {
       return user.isAdmin;
     }
-    return { user:user };
+    return user;
   }
 
   async findUserByToken(token: string) {

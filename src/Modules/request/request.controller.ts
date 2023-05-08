@@ -5,9 +5,9 @@ import {
   Get,
   Param,
   ParseIntPipe,
-  Post,
-  ValidationPipe,
-} from '@nestjs/common';
+  Post, Put,
+  ValidationPipe
+} from "@nestjs/common";
 import { RequestService } from './request.service';
 import { CreateRequestDto } from './requestDTOs/create-request.dto';
 
@@ -16,15 +16,31 @@ export class RequestController {
   constructor(private requestService: RequestService) {}
 
   @Post('createRequest')
-  createRequest(@Body(ValidationPipe) createRequestDto: CreateRequestDto) {}
+  createRequest(@Body(ValidationPipe) createRequestDto: CreateRequestDto) {
+    this.requestService.createRequest();
+  }
   @Get('getRequest/:id')
-  getRequest() {}
+  getRequest() {
+    this.requestService.getRequest();
+  }
   @Get('getAllRequests')
-  getAllRequests() {}
+  getAllRequests() {
+    this.requestService.getAllRequests();
+  }
   @Delete('deleteRequest/:id')
-  deleteRequest(@Param('id', ParseIntPipe) id: number) {}
+  deleteRequest(@Param('id', ParseIntPipe) id: number) {
+    this.requestService.deleteRequest();
+  }
   @Get('acceptRequest/:id')
-  acceptRequest(@Param('id', ParseIntPipe) id: number) {}
+  acceptRequest(@Param('id', ParseIntPipe) id: number) {
+    this.requestService.acceptRequest();
+  }
   @Get('rejectRequest/:id')
-  rejectRequest(@Param('id', ParseIntPipe) id: number) {}
+  rejectRequest(@Param('id', ParseIntPipe) id: number) {
+    this.requestService.rejectRequest();
+  }
+  @Put('editRequest/:id')
+editRequest(){
+  this.requestService.editRequest();
+}
 }
