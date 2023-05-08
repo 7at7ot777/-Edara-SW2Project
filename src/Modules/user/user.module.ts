@@ -10,7 +10,7 @@ import { Warehouse } from '../../../entities/Warehouse';
 @Module({
   imports: [TypeOrmModule.forFeature([User, Warehouse])],
   providers: [UserService],
-
+  controllers: [UserController],
   exports: [UserService],
 })
 export class UserModule {}

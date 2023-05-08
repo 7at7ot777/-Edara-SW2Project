@@ -32,7 +32,7 @@ export class UserService {
       const warehouseId = await this.getWarehouse(user.id);
       await this.userRepository.save(user);
       delete user.password;
-      return { user, warehouseId };
+      return { user: user, warehouseId: warehouseId };
     }
   }
 
@@ -52,7 +52,7 @@ export class UserService {
     if (user instanceof User) {
       return user.isAdmin;
     }
-    return user;
+    return { user:user };
   }
 
   async findUserByToken(token: string) {
