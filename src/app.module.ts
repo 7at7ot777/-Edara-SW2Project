@@ -9,10 +9,11 @@ import { Request } from '../entities/Request';
 import { ShippingCompany } from '../entities/ShippingCompany';
 import { UserController } from './Modules/user/user.controller';
 import { UserService } from './Modules/user/user.service';
-import { UserModule } from "./Modules/user/user.module";
-import { AdminModule } from "./Modules/user/admin/admin.module";
-import { WarehouseModule } from "./Modules/warehouse/warehouse.module";
-import { ProductModule } from "./Modules/product/product.module";
+import { UserModule } from './Modules/user/user.module';
+import { AdminModule } from './Modules/user/admin/admin.module';
+import { WarehouseModule } from './Modules/warehouse/warehouse.module';
+import { ProductModule } from './Modules/product/product.module';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { ProductModule } from "./Modules/product/product.module";
       //migrationsRun: true,
       //  dropSchema: true,
     }),
+    MulterModule.register({ dest: './uploads' }),
     UserModule,
     AdminModule,
     WarehouseModule,

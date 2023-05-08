@@ -6,11 +6,14 @@ import { Repository } from 'typeorm';
 //import { crypto } from 'crypto';
 const crypto = require('crypto');
 import * as bcrypt from 'bcrypt';
+import { Warehouse } from "../../../entities/Warehouse";
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
+    @InjectRepository(Warehouse)
+    private readonly warehouseRepository: Repository<Warehouse>
   ) {}
 
   async login(loginCred: LoginDto) {
