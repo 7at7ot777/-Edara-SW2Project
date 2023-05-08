@@ -6,7 +6,7 @@ import { Repository } from 'typeorm';
 //import { crypto } from 'crypto';
 const crypto = require('crypto');
 import * as bcrypt from 'bcrypt';
-import { Warehouse } from "../../../entities/Warehouse";
+import { Warehouse } from '../../../entities/Warehouse';
 
 @Injectable()
 export class UserService {
@@ -29,9 +29,10 @@ export class UserService {
       //return {token: user.token };
       user.token = crypto.randomBytes(16).toString('hex');
       user.isActive = true;
+      const warehouseId = await this.getWarehouse(user.id);
       await this.userRepository.save(user);
       delete user.password;
-      return user;
+      return { user, warehouseId };
     }
   }
 
@@ -60,5 +61,14 @@ export class UserService {
       throw new HttpException('User Not found', HttpStatus.NOT_FOUND);
     }
     return user;
+  }
+
+  async getWarehouse(id: number) {
+    const warehouse = await this.warehouseRepository.findOneBy({ id });
+    if (warehouse) {
+      return warehouse.id;
+    } else {
+      return null;
+    }
   }
 }
