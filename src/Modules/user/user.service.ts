@@ -24,14 +24,14 @@ export class UserService {
       throw new HttpException('User Not Found', HttpStatus.NOT_FOUND);
     }
     if (!(await bcrypt.compare(loginCred.password, user.password))) {
-      return { message: 'incorrect Password' };
+      return { err: 'incorrect Password' };
     } else {
       //return {token: user.token };
       user.token = crypto.randomBytes(16).toString('hex');
       user.isActive = true;
       await this.userRepository.save(user);
       delete user.password;
-      return user;
+      return {user: user};
     }
   }
 
