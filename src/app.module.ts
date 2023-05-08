@@ -12,6 +12,7 @@ import { UserService } from './Modules/user/user.service';
 import { UserModule } from "./Modules/user/user.module";
 import { AdminModule } from "./Modules/user/admin/admin.module";
 import { WarehouseModule } from "./Modules/warehouse/warehouse.module";
+import { ProductModule } from "./Modules/product/product.module";
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { WarehouseModule } from "./Modules/warehouse/warehouse.module";
     UserModule,
     AdminModule,
     WarehouseModule,
+    ProductModule,
   ],
   controllers: [AppController],
   providers: [AppService],
