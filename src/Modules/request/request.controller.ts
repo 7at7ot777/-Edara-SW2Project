@@ -15,7 +15,7 @@ import { CreateRequestDto } from './requestDTOs/create-request.dto';
 export class RequestController {
   constructor(private requestService: RequestService) {}
 
-  @Post('createRequest')
+  /*@Post('createRequest')
   createRequest(@Body(ValidationPipe) createRequestDto: CreateRequestDto) {
     this.requestService.createRequest();
   }
@@ -42,5 +42,5 @@ export class RequestController {
   @Put('editRequest/:id')
 editRequest(){
   this.requestService.editRequest();
-}
+}*/
 }

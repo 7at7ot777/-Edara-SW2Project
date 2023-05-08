@@ -10,7 +10,7 @@ export class RequestService {
     private readonly requestRepository: Repository<Request>,
   ) {}
   async getRequest(id: number) {
-    const request =
+    const request = await this.requestRepository
   }
   async getAllRequests() {}
   async deleteRequest() {}

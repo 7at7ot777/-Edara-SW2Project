@@ -17,9 +17,13 @@ export class UserService {
   ) {}
 
   async login(loginCred: LoginDto) {
-    const user = await this.userRepository.findOneBy({
-      email: loginCred.email,
+    const user = await this.userRepository.findOne({
+      where: {
+        email: loginCred.email,
+      },
+      relations: { warehouse: true },
     });
+    console.log(user);
     if (!user) {
       throw new HttpException('User Not Found', HttpStatus.NOT_FOUND);
     }
@@ -29,10 +33,11 @@ export class UserService {
       //return {token: user.token };
       user.token = crypto.randomBytes(16).toString('hex');
       user.isActive = true;
-      const warehouseId = await this.getWarehouse(user.id);
+      const warehouse = await this.getWarehouse(user.id);
       await this.userRepository.save(user);
-      delete user.password;
-      return { user: user, warehouseId: warehouseId };
+      //      delete user.password;
+      // await this.userRepository.save(user);
+      return { user: user };
     }
   }
 
@@ -66,7 +71,7 @@ export class UserService {
   async getWarehouse(id: number) {
     const warehouse = await this.warehouseRepository.findOneBy({ id });
     if (warehouse) {
-      return warehouse.id;
+      return warehouse;
     } else {
       return null;
     }
