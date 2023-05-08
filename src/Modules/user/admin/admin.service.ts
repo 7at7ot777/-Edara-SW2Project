@@ -10,16 +10,14 @@ import { Warehouse } from '../../../../entities/Warehouse';
 import { Response } from 'express';
 
 @Injectable()
-export class AdminService extends UserService {
+export class AdminService {
   salt = 10;
 
   constructor(
     @InjectRepository(User) private readonly usersRepository: Repository<User>,
     @InjectRepository(Warehouse)
     private readonly warehouseRepository: Repository<Warehouse>,
-  ) {
-    super(usersRepository);
-  }
+  ) {}
   async addUser(token: string, createUserDto: CreateUserDto, warehouseId) {
     const newUser = this.usersRepository.create(createUserDto);
     newUser.password = await bcrypt.hash(newUser.password, this.salt);
@@ -83,7 +81,7 @@ export class AdminService extends UserService {
     const user = await this.usersRepository.findOneBy({ id });
     if (user) {
       await this.usersRepository.remove(user);
-     //await this.usersRepository.save(user);
+      //await this.usersRepository.save(user);
 
       return { message: 'user is deleted succesfully', code: 200 };
     }
@@ -96,3 +94,4 @@ export class AdminService extends UserService {
     return warehouse;
   }
 }
+

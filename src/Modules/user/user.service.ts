@@ -13,7 +13,7 @@ export class UserService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
     @InjectRepository(Warehouse)
-    private readonly warehouseRepository: Repository<Warehouse>
+    private warehouseRepository: Repository<Warehouse>,
   ) {}
 
   async login(loginCred: LoginDto) {
