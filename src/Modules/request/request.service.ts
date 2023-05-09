@@ -8,6 +8,7 @@ import { Warehouse } from '../../../entities/Warehouse';
 import { CreateRequestDto } from './requestDTOs/create-request.dto';
 import { Product } from '../../../entities/Product';
 import { ShippingCompany } from '../../../entities/ShippingCompany';
+import { UpdateRequestDto } from './requestDTOs/update-request.dto';
 
 @Injectable()
 export class RequestService {
@@ -24,9 +25,52 @@ export class RequestService {
     private readonly shipRepository: Repository<ShippingCompany>,
   ) {}
 
-  /*
-  async editRequest() {}
-*/
+  async editRequest(id: number, updateRequest: UpdateRequestDto) {
+    const request = await this.requestRepository.findOne({
+      where: { id },
+      relations: {
+        product: true,
+        shippingCompany: true,
+        user: true,
+      },
+    });
+    await this.UpdateData(request, updateRequest);
+    await this.requestRepository.save(request);
+    return { message: 'Data Updated Successfully', code: 400 };
+  }
+  async UpdateData(request: Request, updateData: UpdateRequestDto) {
+    const product = await this.productRepository.findOneBy({
+      id: updateData.productId,
+    });
+    const user = await this.userRepository.findOneBy({
+      id: updateData.userId,
+    });
+    const shippingCompany = await this.shipRepository.findOneBy({
+      id: updateData.shippingCompanyId,
+    });
+    if (updateData.quantity != null) {
+      request.quantity = updateData.quantity;
+    }
+    if (updateData.isIncrease != null) {
+      request.isIncrease = updateData.isIncrease;
+    }
+    console.log(product);
+    console.log(user);
+    console.log(shippingCompany);
+    console.log(request);
+
+    if (product) {
+      request.product = product;
+    }
+    if (user) {
+      request.user = user;
+    }
+    if (shippingCompany instanceof ShippingCompany) {
+      request.shippingCompany = shippingCompany;
+    }
+    return;
+  }
+
   async deleteRequest(id: number) {
     const request = await this.requestRepository.findOneBy({ id });
     if (request) {

@@ -8,11 +8,12 @@ import {
   Res,
   Delete,
   ParseIntPipe,
-  Param,
-} from '@nestjs/common';
+  Param, Put
+} from "@nestjs/common";
 import { Response } from 'express';
 import { RequestService } from './request.service';
 import { CreateRequestDto } from './requestDTOs/create-request.dto';
+import { UpdateRequestDto } from './requestDTOs/update-request.dto';
 
 @Controller('request')
 export class RequestController {
@@ -38,9 +39,13 @@ export class RequestController {
   @Get('rejectRequest/:id')
   rejectRequest(@Param('id', ParseIntPipe) id: number) {
     return this.requestService.rejectRequest(id);
-  } /*
-   @Put('editRequest/:id')
- editRequest(){
-   this.requestService.editRequest();
- }*/
+  }
+
+  @Put('editRequest/:id')
+  editRequest(
+    @Param('id', ParseIntPipe) id: number,
+    @Body(ValidationPipe) updateRequestDto: UpdateRequestDto,
+  ) {
+    return this.requestService.editRequest(id, updateRequestDto);
+  }
 }
