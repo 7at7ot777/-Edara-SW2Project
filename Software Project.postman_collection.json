@@ -402,59 +402,116 @@
 						"method": "POST",
 						"header": [],
 						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "file",
-									"type": "file",
-									"src": []
-								},
-								{
-									"key": "name",
-									"value": "mohamed",
-									"type": "text"
-								},
-								{
-									"key": "description",
-									"value": "asdasd",
-									"type": "text"
-								},
-								{
-									"key": "stock",
-									"value": "5",
-									"type": "text"
-								},
-								{
-									"key": "warehouseId",
-									"value": "7",
-									"type": "text"
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"string\",\r\n  \"description\": \"string\",\r\n  \"stock\": \"number\",\r\n  \"warehouseId\": 7\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
 								}
-							]
+							}
 						},
 						"url": {
-							"raw": "{{localhost}}product/upload",
+							"raw": "{{localhost}}product/createProduct",
 							"host": [
 								"{{localhost}}product"
 							],
 							"path": [
-								"upload"
+								"createProduct"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "get image",
+					"name": "getAllProductsFor warehouse",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{localhost}}product/getfile3",
+							"raw": "{{localhost}}product/findAllProducts/8",
 							"host": [
 								"{{localhost}}product"
 							],
 							"path": [
-								"getfile3"
+								"findAllProducts",
+								"8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All product for admin",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}product/getAllProductsForAdmin",
+							"host": [
+								"{{localhost}}product"
+							],
+							"path": [
+								"getAllProductsForAdmin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete requst",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}product/4",
+							"host": [
+								"{{localhost}}product"
+							],
+							"path": [
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getOneProduct",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}product/3",
+							"host": [
+								"{{localhost}}product"
+							],
+							"path": [
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update product",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": null,\r\n  \"description\": null,\r\n  \"stock\": null,\r\n  \"warehouseId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost}}product/10",
+							"host": [
+								"{{localhost}}product"
+							],
+							"path": [
+								"10"
 							]
 						}
 					},
@@ -538,13 +595,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{localhost}}request/acceptRequest/2",
+							"raw": "{{localhost}}request/acceptRequest/3",
 							"host": [
 								"{{localhost}}request"
 							],
 							"path": [
 								"acceptRequest",
-								"2"
+								"3"
 							]
 						}
 					},
@@ -575,7 +632,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"quantity\": null,\r\n    \"shippingCompanyId\": null,\r\n    \"userId\": 3,\r\n    \"productId\": null,\r\n    \"isIncrease\": null\r\n    }",
+							"raw": "{\r\n    \"quantity\": null,\r\n    \"shippingCompanyId\": null,\r\n    \"userId\": 1,\r\n    \"productId\": 1,\r\n    \"isIncrease\": null\r\n    }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -583,13 +640,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{localhost}}request/editRequest/1",
+							"raw": "{{localhost}}request/editRequest/2",
 							"host": [
 								"{{localhost}}request"
 							],
 							"path": [
 								"editRequest",
-								"1"
+								"2"
 							]
 						}
 					},

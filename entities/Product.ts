@@ -10,7 +10,6 @@ import { User } from './User';
 import { Warehouse } from './Warehouse';
 import { Request } from './Request';
 
-
 @Entity({ name: 'products' })
 export class Product {
   @PrimaryGeneratedColumn()
@@ -23,8 +22,14 @@ export class Product {
   photo: string;
   @Column()
   stock: number;
-  @ManyToOne(() => Warehouse, (warehouse) => warehouse.products)
+  @ManyToOne(() => Warehouse, (warehouse) => warehouse.products, {
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
   warehouse: Warehouse;
-  @OneToMany(() => Request, (request) => request.product)
+  @OneToMany(() => Request, (request) => request.product, {
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
   requests: Request[];
 }

@@ -13,40 +13,106 @@ import { Repository } from 'typeorm';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import e from 'express';
+import { Warehouse } from '../../../entities/Warehouse';
 
 @Injectable()
 export class ProductService {
   constructor(
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
+    @InjectRepository(Warehouse)
+    private readonly warehouseRepository: Repository<Warehouse>,
   ) {}
+  async updateProductData(product: Product, data: UpdateProductDto) {
+    console.log(data.stock);
+    if (data.warehouseId !== null) {
+      product.warehouse = await this.warehouseRepository.findOneBy({
+        id: data.warehouseId,
+      });
+      console.log('enterd here1');
+
+    }
+    if (data.stock != null) {
+      product.stock = data.stock;
+      console.log('enterd here2');
+
+    }
+    if (data.name !== null && data.name != '') {
+      product.name = data.name;
+      console.log('enterd here3');
+
+    }
+    if (data.description !== null && data.description !== '') {
+      product.description = data.description;
+      console.log('enterd here4');
+
+    }
+  }
   async create(createProductDto: CreateProductDto) {
-    //const product = await this.create(...createProductDto, fi);
+    const warehouse = await this.warehouseRepository.findOneBy({
+      id: createProductDto.warehouseId,
+    });
+    if (warehouse) {
+      const product = await this.productRepository.create({
+        ...createProductDto,
+      });
+      product.warehouse = warehouse;
+      this.productRepository.save(product);
+      return { message: 'product is added successfully' };
+    }
+    return { error: 'warehouse not found' };
   }
 
-  findAll() {
-    return `This action returns all product`;
+  async findAll(warehouseId: number) {
+    const warehouse = await this.warehouseRepository.findOneBy({
+      id: warehouseId,
+    });
+    const product = await this.productRepository.find({
+      where: { warehouse: warehouse },
+    });
+    if (warehouse && product[0]) {
+      return { products: product };
+    }
+    return { error: 'Warehouse is Empty or Not Found' };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
+  async findOne(id: number) {
+    const product = await this.productRepository.findOneBy({ id });
+    if (product) {
+      return { product: product };
+    }
+    return { message: 'Product Not found' };
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+  async update(id: number, updateProductDto: UpdateProductDto) {
+    console.log(updateProductDto);
+
+    const product = await this.productRepository.findOneBy({ id });
+    if (product) {
+      await this.updateProductData(product, updateProductDto);
+      //this.productRepository.update()
+      await this.productRepository.save(product);
+      return { message: 'Product updated successfully' };
+    }
+    return { message: 'Product Not found' };
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
-  }
 
-  //testing
-  uploadFile(
-    @UploadedFile() file: Express.Multer.File,
-    @Body() body: CreateProductDto,
-  ) {
-    console.log(file);
-    console.log(body);
+  async remove(id: number) {
+    const product = await this.productRepository.findOneBy({ id });
+    if (product) {
+      await this.productRepository.remove(product);
+      return { message: 'deleted successfully' };
+    }
+    return { message: 'Product Not found' };
   }
-
+  async getAllProductsForAdmin() {
+    const products = await this.productRepository.find();
+    console.log(products[0]);
+    if (products[0]) {
+      console.log(products);
+      return { products: products };
+    }
+    return { message: 'there are no product now ' };
+  }
 }

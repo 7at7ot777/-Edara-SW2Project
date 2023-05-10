@@ -11,6 +11,9 @@ export class Warehouse {
   location: string;
   @Column({ default: false })
   isActive: boolean;
-  @OneToMany(() => Product, (product) => product.warehouse)
+  @OneToMany(() => Product, (product) => product.warehouse,{
+    onDelete:"SET NULL",
+    onUpdate:"CASCADE"
+  })
   products: Product[];
 }
