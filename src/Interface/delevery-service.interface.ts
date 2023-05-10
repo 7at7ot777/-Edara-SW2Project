@@ -1,5 +1,5 @@
-import { Product } from '../../entities/Product';
-
-export interface DeleveryService {
-  deleverProduct(product: Product): void;
+export interface IDeleveryService {
+  id: number;
+  companyName: string;
+  shipProduct(): any;
 }

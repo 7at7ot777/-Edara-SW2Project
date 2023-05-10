@@ -8,8 +8,9 @@ import {
   Res,
   Delete,
   ParseIntPipe,
-  Param, Put
-} from "@nestjs/common";
+  Param,
+  Put,
+} from '@nestjs/common';
 import { Response } from 'express';
 import { RequestService } from './request.service';
 import { CreateRequestDto } from './requestDTOs/create-request.dto';
@@ -33,7 +34,7 @@ export class RequestController {
 
   @Get('acceptRequest/:id')
   acceptRequest(@Param('id', ParseIntPipe) id: number) {
-    this.requestService.acceptRequest(id);
+    return this.requestService.acceptRequest(id);
   }
 
   @Get('rejectRequest/:id')

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Request } from '../../../entities/Request';
 import { Repository } from 'typeorm';
@@ -9,6 +9,10 @@ import { CreateRequestDto } from './requestDTOs/create-request.dto';
 import { Product } from '../../../entities/Product';
 import { ShippingCompany } from '../../../entities/ShippingCompany';
 import { UpdateRequestDto } from './requestDTOs/update-request.dto';
+import { IDeleveryService } from '../../Interface/delevery-service.interface';
+import { LocalShippingService } from '../shipping/local-shipping/local-shipping.service';
+import { LocalShippingController } from '../shipping/local-shipping/local-shipping.controller';
+import { GlobalShippingController } from '../shipping/global-shipping/global-shipping.controller';
 
 @Injectable()
 export class RequestService {
@@ -23,7 +27,25 @@ export class RequestService {
     private readonly productRepository: Repository<Product>,
     @InjectRepository(ShippingCompany)
     private readonly shipRepository: Repository<ShippingCompany>,
+    @Inject('IDeleveryService') public deleveryService: IDeleveryService,
   ) {}
+
+  async setDeleveryService(requestId: number) {
+    const requestShippingCompany = await this.requestRepository.findOne({
+      where: { id: requestId },
+      relations: {
+        shippingCompany: true,
+      },
+    });
+    if (requestShippingCompany.shippingCompany.id == 2) {
+      this.deleveryService = new GlobalShippingController();
+      this.deleveryService.shipProduct();
+    } else {
+      this.deleveryService = new LocalShippingController();
+      this.deleveryService.shipProduct();
+    }
+    return;
+  }
 
   async editRequest(id: number, updateRequest: UpdateRequestDto) {
     const request = await this.requestRepository.findOne({
@@ -144,7 +166,11 @@ export class RequestService {
     const request = await this.requestRepository.findOneBy({ id });
     if (request) {
       await this.processAceeptRequest(request);
-      return { message: 'Request is accepted successfully' };
+      await this.setDeleveryService(request.id);
+      return {
+        message:
+          'Request is accepted successfully',
+      details: this.deleveryService.shipProduct() };
     } else {
       return { error: ['Request not found'] };
     }
@@ -160,6 +186,7 @@ export class RequestService {
     request.isAccepted = true;
     await this.productRepository.save(product);
     await this.requestRepository.save(request);
+    return;
   }
   async rejectRequest(id) {
     const request = await this.requestRepository.findOneBy({ id });

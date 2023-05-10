@@ -16,9 +16,18 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import e from 'express';
+import { IDeleveryService } from '../../Interface/delevery-service.interface';
 
 @Controller('product')
-export class ProductController {
+export class ProductController implements IDeleveryService {
+  companyName = 'TedEx';
+  id: 1;
+
+  shipProduct(): void {
+    console.log(
+      `The Product is now Shipping By Locally by the ${this.companyName}...`,
+    );
+  }
   constructor(private readonly productService: ProductService) {}
 
   @Post()
@@ -45,5 +54,4 @@ export class ProductController {
   remove(@Param('id') id: string) {
     return this.productService.remove(+id);
   }
-
 }
