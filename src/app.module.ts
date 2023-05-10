@@ -30,7 +30,6 @@ import { RequestModule } from './Modules/request/request.module';
       //migrationsRun: true,
       //  dropSchema: true,
     }),
-    MulterModule.register({ dest: './uploads' }),
     UserModule,
     AdminModule,
     WarehouseModule,
